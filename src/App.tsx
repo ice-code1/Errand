@@ -13,6 +13,7 @@ import { DashboardPage } from './modules/dashboard/DashboardPage';
 import { TasksPage } from './modules/tasks/TasksPage';
 import { CreateTaskPage } from './modules/tasks/CreateTaskPage';
 import { TaskDetailPage } from './modules/tasks/TaskDetailPage';
+import { ProfilePage } from './modules/profile/ProfilePage';
 import { AdminDashboard } from './modules/admin/AdminDashboard';
 import { AdminAnalytics } from './modules/admin/AdminAnalytics';
 import { AdminUsers } from './modules/admin/AdminUsers';
@@ -69,7 +70,7 @@ function App() {
               path="/profile"
               element={
                 <ProtectedRoute>
-                  <DashboardPage />
+                  <ProfilePage />
                 </ProtectedRoute>
               }
             />
