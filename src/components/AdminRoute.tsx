@@ -21,6 +21,13 @@ export const AdminRoute: React.FC<AdminRouteProps> = ({ children }) => {
         return;
       }
 
+      // ✅ Only check admin if you're inside /admin
+      if (!location.pathname.startsWith("/admin")) {
+        setIsAdmin(false);
+        setLoading(false);
+        return;
+      }
+
       try {
         const adminStatus = await adminService.isAdmin();
         setIsAdmin(adminStatus);
@@ -35,7 +42,8 @@ export const AdminRoute: React.FC<AdminRouteProps> = ({ children }) => {
     if (!authLoading) {
       checkAdminStatus();
     }
-  }, [user, authLoading]);
+  }, [user, authLoading, location.pathname]);
+
 
   if (authLoading || loading) {
     return (

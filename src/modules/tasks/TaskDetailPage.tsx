@@ -2,8 +2,10 @@ import React, { useState, useEffect } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
 import { taskService } from '../../services/tasks';
 import { chatService } from '../../services/chat';
+import { kycService } from '../../services/kyc';
 import { useAuth } from '../../contexts/AuthContext';
 import { Layout } from '../../components/Layout/Layout';
+import { LocationTracker } from '../../components/LocationTracker';
 import { Button } from '../../components/UI/Button';
 import { Input } from '../../components/UI/Input';
 import { TextArea } from '../../components/UI/TextArea';
@@ -24,6 +26,7 @@ export const TaskDetailPage: React.FC = () => {
   const [chatMessage, setChatMessage] = useState('');
   const [showBidForm, setShowBidForm] = useState(false);
   const [showChat, setShowChat] = useState(false);
+  const [isKYCVerified, setIsKYCVerified] = useState(false);
   const { user } = useAuth();
   const navigate = useNavigate();
 
@@ -48,6 +51,7 @@ export const TaskDetailPage: React.FC = () => {
 
   useEffect(() => {
     fetchTaskData();
+    checkKYCStatus();
 
     if (id) {
       // Subscribe to real-time updates
@@ -68,6 +72,15 @@ export const TaskDetailPage: React.FC = () => {
     }
   }, [id]);
 
+  const checkKYCStatus = async () => {
+    try {
+      const verified = await kycService.checkKYCVerified();
+      setIsKYCVerified(verified);
+    } catch (error) {
+      console.error('Failed to check KYC status:', error);
+    }
+  };
+
   useEffect(() => {
     if (id && showChat) {
       const messagesSubscription = chatService.subscribeToMessages(id, (newMessage) => {
@@ -82,6 +95,13 @@ export const TaskDetailPage: React.FC = () => {
 
   const handleSubmitBid = async (e: React.FormEvent) => {
     e.preventDefault();
+    
+    if (!isKYCVerified) {
+      toast.error('Please complete KYC verification to place bids');
+      navigate('/kyc');
+      return;
+    }
+    
     if (!id || !bidAmount) return;
 
     try {
@@ -157,7 +177,7 @@ export const TaskDetailPage: React.FC = () => {
 
   const isOwner = task.creator_id === user?.id;
   const isRunner = task.runner_id === user?.id;
-  const canBid = !isOwner && !isRunner && task.status === 'posted' && user?.profile?.is_runner;
+  const canBid = !isOwner && !isRunner && task.status === 'posted' && user?.profile?.is_runner && isKYCVerified;
   const canChat = isOwner || isRunner;
 
   return (
@@ -253,6 +273,15 @@ export const TaskDetailPage: React.FC = () => {
                 disabled={showBidForm}
               >
                 Place Bid
+              </Button>
+            )}
+            
+            {!isOwner && !isRunner && task.status === 'posted' && user?.profile?.is_runner && !isKYCVerified && (
+              <Button 
+                onClick={() => navigate('/kyc')}
+                variant="outline"
+              >
+                Complete KYC to Bid
               </Button>
             )}
 
@@ -384,6 +413,17 @@ export const TaskDetailPage: React.FC = () => {
             </div>
           )}
         </div>
+
+        {/* Location Tracker */}
+        {(isOwner || isRunner) && ['accepted', 'in_progress'].includes(task.status) && (
+          <LocationTracker
+            taskId={task.id}
+            isRunner={isRunner}
+            isCreator={isOwner}
+            taskStatus={task.status}
+            onTaskComplete={fetchTaskData}
+          />
+        )}
 
         {/* Bids Section */}
         {task.bids && task.bids.length > 0 && (

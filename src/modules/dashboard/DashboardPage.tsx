@@ -10,6 +10,8 @@ import {
   TrendingUp, MapPin, MessageCircle 
 } from 'lucide-react';
 import toast from 'react-hot-toast';
+import Link from "next/link"
+
 
 export const DashboardPage: React.FC = () => {
   const [myTasks, setMyTasks] = useState<any[]>([]);
@@ -93,19 +95,28 @@ export const DashboardPage: React.FC = () => {
         <div className="flex justify-between items-center mb-8">
           <div>
             <h1 className="text-3xl font-bold text-gray-900">
-              Welcome back, {user?.profile?.full_name || user?.email}!
+              Welcome back,{" "}
+              {user?.email ? (
+                <span
+                  onClick={() => navigate("/profile")}
+                  className="text-blue-600 hover:underline cursor-pointer"
+                >
+                  {user?.profile?.full_name || user?.email}
+                </span>
+              ) : (
+                user?.profile?.full_name
+              )}
+              !
             </h1>
             <p className="text-gray-600 mt-1">
               Here's what's happening with your errands today.
             </p>
           </div>
-          <Button
-            icon={Plus}
-            onClick={() => navigate('/create-task')}
-          >
+          <Button icon={Plus} onClick={() => navigate("/create-task")}>
             Create Task
           </Button>
         </div>
+
 
         {/* Stats Cards */}
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-8">

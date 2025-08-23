@@ -20,6 +20,7 @@ import { AdminUsers } from './modules/admin/AdminUsers';
 import { AdminTasks } from './modules/admin/AdminTasks';
 import { AdminSettings } from './modules/admin/AdminSettings';
 import { AdminRoute } from './components/AdminRoute';
+import { KYCVerificationPage } from './modules/kyc/KYCVerificationPage';
 
 function App() {
   return (
@@ -32,6 +33,14 @@ function App() {
             <Route path="/auth/login" element={<LoginPage />} />
             <Route path="/auth/signup" element={<SignUpPage />} />
             <Route path="/auth/forgot-password" element={<ForgotPasswordPage />} />
+            <Route
+              path="/kyc"
+              element={
+                <ProtectedRoute>
+                  <KYCVerificationPage />
+                </ProtectedRoute>
+              }
+            />
 
             {/* Protected Routes */}
             <Route

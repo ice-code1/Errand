@@ -1,0 +1,13 @@
+{
+	"folders": [
+		{
+			"name": "RunnerReact",
+			"path": "../../.."
+		},
+		{
+			"name": "supabase",
+			"path": "../../../../../project-bolt-sb1-mimxrbhr (1)/project/supabase"
+		}
+	],
+	"settings": {}
+}
