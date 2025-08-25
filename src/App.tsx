@@ -3,6 +3,7 @@ import { BrowserRouter as Router, Routes, Route, Navigate } from 'react-router-d
 import { Toaster } from 'react-hot-toast';
 import { AuthProvider } from './contexts/AuthContext';
 import { ProtectedRoute } from './components/ProtectedRoute';
+import { AdminRoute } from './components/AdminRoute';
 
 // Pages
 import { HomePage } from './modules/home/HomePage';
@@ -19,7 +20,6 @@ import { AdminAnalytics } from './modules/admin/AdminAnalytics';
 import { AdminUsers } from './modules/admin/AdminUsers';
 import { AdminTasks } from './modules/admin/AdminTasks';
 import { AdminSettings } from './modules/admin/AdminSettings';
-import { AdminRoute } from './components/AdminRoute';
 import { KYCVerificationPage } from './modules/kyc/KYCVerificationPage';
 
 function App() {
@@ -33,6 +33,8 @@ function App() {
             <Route path="/auth/login" element={<LoginPage />} />
             <Route path="/auth/signup" element={<SignUpPage />} />
             <Route path="/auth/forgot-password" element={<ForgotPasswordPage />} />
+
+            {/* Protected User Routes */}
             <Route
               path="/kyc"
               element={
@@ -41,8 +43,6 @@ function App() {
                 </ProtectedRoute>
               }
             />
-
-            {/* Protected Routes */}
             <Route
               path="/dashboard"
               element={
@@ -130,6 +130,7 @@ function App() {
             <Route path="*" element={<Navigate to="/" replace />} />
           </Routes>
 
+          {/* Toast Notifications */}
           <Toaster
             position="top-right"
             toastOptions={{
@@ -139,14 +140,10 @@ function App() {
                 color: '#fff',
               },
               success: {
-                style: {
-                  background: '#10b981',
-                },
+                style: { background: '#10b981' },
               },
               error: {
-                style: {
-                  background: '#ef4444',
-                },
+                style: { background: '#ef4444' },
               },
             }}
           />
