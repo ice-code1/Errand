@@ -17,7 +17,16 @@ export const authService = {
       password,
     });
 
-    if (error) throw error;
+    if (error) {
+    // Replace RLS error with friendly message
+    if (error.message.includes("row-level security")) {
+      alert("Check your email to confirm your account before logging in.");
+    } else {
+      alert(error.message);
+    }
+  } else {
+    alert("Signup successful! Please check your email to confirm your account.");
+  }
 
     if (data.user) {
       // Create profile

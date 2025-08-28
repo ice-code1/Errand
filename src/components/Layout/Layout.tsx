@@ -1,5 +1,6 @@
 import React from 'react';
 import { Header } from './Header';
+import { FooterNav } from './FooterNav';   // ⬅️ import footer
 import { RunnerAnimation } from '../Animation/RunnerAnimation';
 
 interface LayoutProps {
@@ -14,6 +15,7 @@ export const Layout: React.FC<LayoutProps> = ({ children }) => {
         {children}
       </main>
       <RunnerAnimation />
+      <FooterNav />
     </div>
   );
 };

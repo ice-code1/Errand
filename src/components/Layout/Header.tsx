@@ -41,7 +41,7 @@ export const Header: React.FC = () => {
           </Link>
 
           {user && (
-            <nav className="flex items-center space-x-4">
+            <nav className="hidden md:flex items-center space-x-4">
               <Link
                 to="/dashboard"
                 className="text-gray-600 hover:text-blue-600 px-3 py-2 rounded-md text-sm font-medium transition-colors"
@@ -70,7 +70,7 @@ export const Header: React.FC = () => {
                   >
                     KYC
                   </Link>
-              </>
+                </>
               )}
               <Link
                 to="/create-task"
@@ -93,6 +93,7 @@ export const Header: React.FC = () => {
               </div>
             </nav>
           )}
+
         </div>
       </div>
     </header>

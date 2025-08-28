@@ -16,6 +16,7 @@ export const SignUpPage: React.FC = () => {
   const [loading, setLoading] = useState(false);
   const [errors, setErrors] = useState<Record<string, string>>({});
   const { signUp } = useAuth();
+  const [message, setMessage] = useState("");
   const navigate = useNavigate();
 
   const handleInputChange = (field: string, value: string | boolean) => {
@@ -52,20 +53,38 @@ export const SignUpPage: React.FC = () => {
     return Object.keys(newErrors).length === 0;
   };
 
-  const handleSubmit = async (e: React.FormEvent) => {
-    e.preventDefault();
-    if (!validateForm()) return;
+    const handleSubmit = async (e: React.FormEvent) => {
+      e.preventDefault();
+      setMessage(""); 
+      if (!validateForm()) return;
 
-    setLoading(true);
-    try {
-      await signUp(formData.email, formData.password, formData.fullName, formData.isRunner);
-      navigate('/dashboard');
-    } catch (error) {
-      // Error handling is done in the auth context
-    } finally {
-      setLoading(false);
-    }
-  };
+      setLoading(true);
+      try {
+        const { error } = await signUp(
+          formData.email,
+          formData.password,
+          formData.fullName,
+          formData.isRunner
+        );
+
+        if (error) {
+          if (error.message.includes("row-level security")) {
+            setMessage("Please check your email to confirm your account.");
+            return;
+          }
+          setMessage(error.message);
+          return;
+        }
+
+        // success case
+        setMessage("Please check your email to confirm your account.");
+      } finally {
+        setLoading(false);
+      }
+    };
+
+
+
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-blue-50 via-white to-blue-50 flex items-center justify-center p-4">
@@ -77,6 +96,14 @@ export const SignUpPage: React.FC = () => {
           <h2 className="text-3xl font-bold text-gray-900">Create your account</h2>
           <p className="mt-2 text-gray-600">Join Errands Runner and start earning or getting help</p>
         </div>
+
+         {/* ✅ Success / Error Message */}
+         {message && (
+            <p className="text-center text-sm text-blue-600 font-medium">
+              {message}
+            </p>
+          )}
+
 
         <form className="mt-8 space-y-6" onSubmit={handleSubmit}>
           <div className="space-y-4">

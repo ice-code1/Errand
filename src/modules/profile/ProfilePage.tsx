@@ -30,6 +30,7 @@ export const ProfilePage: React.FC = () => {
     phone: user?.profile?.phone || '',
     bio: '',
     isRunner: user?.profile?.is_runner || false,
+    avatarUrl: user?.profile?.avatar_url || '',
   });
 
   const fetchProfileData = async () => {
@@ -51,6 +52,25 @@ export const ProfilePage: React.FC = () => {
   useEffect(() => {
     fetchProfileData();
   }, [user]);
+
+  const handleAvatarChange = async (e: React.ChangeEvent<HTMLInputElement>) => {
+    if (!e.target.files || e.target.files.length === 0) return;
+    const file = e.target.files[0];
+
+    try {
+      setLoading(true);
+      const publicUrl = await profileService.uploadAvatar(file);
+
+      setProfileData(prev => ({ ...prev, avatarUrl: publicUrl }));
+      toast.success('Profile image updated!');
+    } catch (error: any) {
+      console.error(error);
+      toast.error('Failed to upload avatar');
+    } finally {
+      setLoading(false);
+    }
+  };
+
 
   const handleSaveProfile = async () => {
     if (!user) return;
@@ -93,13 +113,34 @@ export const ProfilePage: React.FC = () => {
           <div className="flex flex-col md:flex-row items-start md:items-center justify-between">
             <div className="flex items-center space-x-4 mb-4 md:mb-0">
               <div className="relative">
-                <div className="w-20 h-20 bg-gradient-to-br from-blue-500 to-blue-600 rounded-full flex items-center justify-center">
-                  <User className="h-10 w-10 text-white" />
-                </div>
-                <button className="absolute -bottom-1 -right-1 bg-white rounded-full p-1.5 shadow-md hover:shadow-lg transition-shadow">
-                  <Camera className="h-4 w-4 text-gray-600" />
-                </button>
+                {profileData.avatarUrl ? (
+                  <img
+                    src={profileData.avatarUrl}
+                    alt="Profile"
+                    className="w-20 h-20 rounded-full object-cover border"
+                  />
+                ) : (
+                  <div className="w-20 h-20 bg-gradient-to-br from-blue-500 to-blue-600 rounded-full flex items-center justify-center">
+                    <User className="h-10 w-10 text-white" />
+                  </div>
+                )}
+
+                {isEditing && (
+                  <label
+                    className="absolute -bottom-1 -right-1 bg-white rounded-full p-1.5 shadow-md hover:shadow-lg transition-shadow cursor-pointer"
+                    title="Change photo"
+                  >
+                    <Camera className="h-4 w-4 text-gray-600" />
+                    <input
+                      type="file"
+                      accept="image/*"
+                      onChange={handleAvatarChange}
+                      className="hidden"
+                    />
+                  </label>
+                )}
               </div>
+
               <div>
                 <h1 className="text-2xl font-bold text-gray-900">
                   {user.profile?.full_name || 'Anonymous User'}

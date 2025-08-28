@@ -43,16 +43,16 @@ export const profileService = {
 
     const fileExt = file.name.split('.').pop();
     const fileName = `${user.id}-${Math.random()}.${fileExt}`;
-    const filePath = `avatars/${fileName}`;
+    const filePath = `${fileName}`; // keep it simple, no extra "profile-images" folder
 
     const { error: uploadError } = await supabase.storage
-      .from('avatars')
+      .from('profile-images')
       .upload(filePath, file);
 
     if (uploadError) throw uploadError;
 
     const { data } = supabase.storage
-      .from('avatars')
+      .from('profile-images')
       .getPublicUrl(filePath);
 
     // Update profile with new avatar URL
@@ -60,6 +60,7 @@ export const profileService = {
 
     return data.publicUrl;
   },
+
 
   async getUserStats(userId?: string) {
     const targetUserId = userId || (await supabase.auth.getUser()).data.user?.id;

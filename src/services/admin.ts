@@ -102,11 +102,16 @@ export const adminService = {
     const { data: { user } } = await supabase.auth.getUser();
     if (!user) return false;
 
-    const { data } = await supabase
-      .from('admin_users')
-      .select('id')
-      .eq('user_id', user.id)
-      .single();
+    const { data, error } = await supabase
+      .from("admin_users")
+      .select("id")
+      .eq("user_id", user.id)
+      .maybeSingle();
+
+      if (error) {
+      console.error("Error fetching admin status:", error);
+      return false;
+    } 
 
     return !!data;
   },
