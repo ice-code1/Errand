@@ -3,14 +3,13 @@ import { useNavigate } from 'react-router-dom';
 import { taskService } from '../../services/tasks';
 import { useAuth } from '../../contexts/AuthContext';
 import { Layout } from '../../components/Layout/Layout';
-import { TaskCard } from '../../components/Tasks/TaskCard';
 import { Button } from '../../components/UI/Button';
 import { 
   Plus, CheckCircle, Clock, DollarSign, User, 
-  TrendingUp, MapPin, MessageCircle 
+  TrendingUp, MapPin, 
 } from 'lucide-react';
 import toast from 'react-hot-toast';
-import Link from "next/link"
+
 
 
 export const DashboardPage: React.FC = () => {
@@ -341,3 +340,5 @@ export const DashboardPage: React.FC = () => {
     </Layout>
   );
 };
+
+export default DashboardPage;

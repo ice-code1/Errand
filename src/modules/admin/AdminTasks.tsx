@@ -326,3 +326,5 @@ export const AdminTasks: React.FC = () => {
     </Layout>
   );
 };
+
+export default AdminTasks;

@@ -5,9 +5,9 @@ import { Button } from '../../components/UI/Button';
 import { Select } from '../../components/UI/Select';
 import { 
   TrendingUp, Users, DollarSign, CheckCircle, 
-  Calendar, Download, RefreshCw 
+   Download, RefreshCw 
 } from 'lucide-react';
-import { formatDistanceToNow } from 'date-fns';
+
 import toast from 'react-hot-toast';
 
 const TIME_PERIODS = [
@@ -338,3 +338,5 @@ export const AdminAnalytics: React.FC = () => {
     </Layout>
   );
 };
+
+export default AdminAnalytics;

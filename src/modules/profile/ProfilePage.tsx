@@ -7,7 +7,7 @@ import { Input } from '../../components/UI/Input';
 import { TextArea } from '../../components/UI/TextArea';
 import { 
   User, Edit3, Save, X, Star, CheckCircle, Clock, 
-  DollarSign, MapPin, Phone, Mail, Calendar, Award,
+  DollarSign,  Phone, Mail, Calendar, Award,
   Settings, Shield, Bell, Camera
 } from 'lucide-react';
 import { formatDistanceToNow } from 'date-fns';
@@ -388,3 +388,5 @@ export const ProfilePage: React.FC = () => {
     </Layout>
   );
 };
+
+export default ProfilePage;

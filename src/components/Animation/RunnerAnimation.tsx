@@ -1,97 +1,64 @@
-import React, { useState } from 'react';
-import { motion, AnimatePresence } from 'framer-motion';
-import { User } from 'lucide-react';
+import React, { useState } from "react";
+import { motion, AnimatePresence } from "framer-motion";
+import { User } from "lucide-react";
 
 export const RunnerAnimation: React.FC = () => {
-  const [isRunning, setIsRunning] = useState(false);
-  const [showPanting, setShowPanting] = useState(false);
+  const [isDelivering, setIsDelivering] = useState(false);
 
-  const handleRunnerClick = () => {
-    if (isRunning) return;
+  const handleClick = () => {
+    if (isDelivering) return;
 
-    setIsRunning(true);
-    
+    setIsDelivering(true);
+
     setTimeout(() => {
-      setIsRunning(false);
-      setShowPanting(true);
-      
-      setTimeout(() => {
-        setShowPanting(false);
-      }, 2000);
-    }, 3000);
+      setIsDelivering(false);
+    }, 2500); // animation duration
   };
 
   return (
     <>
-      {/* Static Runner Character */}
-      <motion.div
-        className="fixed left-4 top-1/2 z-50 cursor-pointer"
-        initial={{ y: -10 }}
-        animate={{ y: isRunning ? -10 : 0 }}
-        transition={{ duration: 0.5 }}
-        onClick={handleRunnerClick}
-      >
-        <div className="bg-blue-500 text-white p-3 rounded-full shadow-lg hover:bg-blue-600 transition-colors">
-          <User className="h-6 w-6" />
-        </div>
-      </motion.div>
-
-      {/* Running Animation */}
       <AnimatePresence>
-        {isRunning && (
+        {!isDelivering ? (
+          // ✅ Draggable Floating Icon
           <motion.div
-            className="fixed z-50 pointer-events-none"
+            drag // makes it draggable
+            dragMomentum={false} // smoother drag
+            dragConstraints={{ top: 0, bottom: window.innerHeight - 80, left: 0, right: window.innerWidth - 80 }}
+            className="fixed left-4 top-1/2 z-50 cursor-grab"
+            whileHover={{ scale: 1.2 }}
+            whileTap={{ scale: 0.9 }}
+            onClick={handleClick}
+          >
+            <div className="bg-blue-500 text-white p-3 rounded-full shadow-lg">
+              <User className="h-6 w-6" />
+            </div>
+          </motion.div>
+        ) : (
+          // ✅ Delivery Bounce Animation
+          <motion.div
+            key="delivery"
+            className="fixed z-50"
             initial={{ x: 16, y: window.innerHeight / 2 }}
             animate={{
-              x: [16, window.innerWidth - 64, window.innerWidth - 64, 16, 16],
-              y: [
-                window.innerHeight / 2,
-                window.innerHeight / 2,
-                64,
-                64,
-                window.innerHeight / 2
-              ],
+              x: [16, window.innerWidth - 80, 16],
+              y: [window.innerHeight / 2, 100, window.innerHeight / 2],
             }}
-            transition={{ duration: 3, ease: 'linear' }}
-            onAnimationComplete={() => setIsRunning(false)}
+            transition={{ duration: 2.5, ease: "easeInOut" }}
+            exit={{ opacity: 0 }}
           >
             <motion.div
-              className="bg-blue-500 text-white p-3 rounded-full shadow-lg"
-              animate={{ rotate: [0, 10, -10, 0] }}
-              transition={{ duration: 0.2, repeat: Infinity }}
+              className="bg-green-500 text-white p-3 rounded-full shadow-lg"
+              animate={{ scale: [1, 1.3, 0.9, 1.2, 1] }} // bounce effect
+              transition={{ duration: 0.6, repeat: 4 }}
             >
               <User className="h-6 w-6" />
             </motion.div>
           </motion.div>
         )}
       </AnimatePresence>
-
-      {/* Panting Animation */}
-      <AnimatePresence>
-        {showPanting && (
-          <motion.div
-            className="fixed left-4 top-1/2 z-50 pointer-events-none"
-            initial={{ opacity: 0, scale: 0.8 }}
-            animate={{ opacity: 1, scale: 1 }}
-            exit={{ opacity: 0, scale: 0.8 }}
-            transition={{ duration: 0.3 }}
-          >
-            <div className="bg-white rounded-lg shadow-lg p-2 mb-2 relative">
-              <div className="absolute -bottom-2 left-4 w-0 h-0 border-l-4 border-r-4 border-t-4 border-transparent border-t-white"></div>
-              <motion.span
-                className="text-sm text-gray-700"
-                animate={{ opacity: [1, 0.5, 1] }}
-                transition={{ duration: 0.5, repeat: Infinity }}
-              >
-                *pant pant*
-              </motion.span>
-            </div>
-            <div className="bg-blue-500 text-white p-3 rounded-full shadow-lg">
-              <User className="h-6 w-6" />
-            </div>
-          </motion.div>
-        )}
-      </AnimatePresence>
     </>
   );
 };
+
+
+export default RunnerAnimation

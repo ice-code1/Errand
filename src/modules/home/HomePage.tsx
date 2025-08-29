@@ -1,15 +1,25 @@
-import React from 'react';
+import React, { Suspense, lazy, useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
 import { useAuth } from '../../contexts/AuthContext';
 import { Button } from '../../components/UI/Button';
-import { RunnerAnimation } from '../../components/Animation/RunnerAnimation';
+
 import { 
   User, MapPin, MessageCircle, DollarSign, 
-  Truck, Clock, Shield, Star 
+  Truck,  Shield,  
 } from 'lucide-react';
+
+const RunnerAnimation = lazy(() => import('../../components/Animation/RunnerAnimation'));
 
 export const HomePage: React.FC = () => {
   const { user } = useAuth();
+  const [showAnimation, setShowAnimation] = useState(false);
+
+    // Load animation only after page is ready + idle
+  useEffect(() => {
+    const timeout = setTimeout(() => setShowAnimation(true), 2000); // load after 2s idle
+    return () => clearTimeout(timeout);
+  }, []);
+
 
   const features = [
     {
@@ -46,7 +56,12 @@ export const HomePage: React.FC = () => {
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-blue-50 via-white to-blue-50">
-      <RunnerAnimation />
+      {/* ✅ RunnerAnimation only loads after page is idle */}
+      {showAnimation && (
+        <Suspense fallback={null}>
+          <RunnerAnimation />
+        </Suspense>
+      )}
       
       {/* Navigation */}
       <nav className="bg-white/90 backdrop-blur-sm border-b sticky top-0 z-40">
@@ -330,3 +345,5 @@ export const HomePage: React.FC = () => {
     </div>
   );
 };
+
+export default HomePage;

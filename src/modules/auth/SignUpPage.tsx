@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Link, useNavigate } from 'react-router-dom';
+import { Link} from 'react-router-dom';
 import { useAuth } from '../../contexts/AuthContext';
 import { Input } from '../../components/UI/Input';
 import { Button } from '../../components/UI/Button';
@@ -17,7 +17,6 @@ export const SignUpPage: React.FC = () => {
   const [errors, setErrors] = useState<Record<string, string>>({});
   const { signUp } = useAuth();
   const [message, setMessage] = useState("");
-  const navigate = useNavigate();
 
   const handleInputChange = (field: string, value: string | boolean) => {
     setFormData(prev => ({ ...prev, [field]: value }));
@@ -187,3 +186,5 @@ export const SignUpPage: React.FC = () => {
     </div>
   );
 };
+
+export default SignUpPage;

@@ -4,8 +4,7 @@ import { Layout } from '../../components/Layout/Layout';
 import { Button } from '../../components/UI/Button';
 import { Input } from '../../components/UI/Input';
 import { 
-  Users, Search, Shield, Star, MessageCircle, 
-  CheckCircle, Calendar, Mail, Phone, MoreVertical 
+  Users, Search, Shield, Star 
 } from 'lucide-react';
 import { formatDistanceToNow } from 'date-fns';
 import toast from 'react-hot-toast';
@@ -345,3 +344,5 @@ export const AdminUsers: React.FC = () => {
     </Layout>
   );
 };
+
+export default AdminUsers;

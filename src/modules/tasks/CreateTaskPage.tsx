@@ -218,3 +218,5 @@ export const CreateTaskPage: React.FC = () => {
     </Layout>
   );
 };
+
+export default CreateTaskPage;

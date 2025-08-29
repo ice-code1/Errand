@@ -1,7 +1,7 @@
 import { supabase } from './supabase';
 import type { Database } from '../types/database';
 
-type KYCVerification = Database['public']['Tables']['kyc_verifications']['Row'];
+
 type KYCInsert = Database['public']['Tables']['kyc_verifications']['Insert'];
 type KYCUpdate = Database['public']['Tables']['kyc_verifications']['Update'];
 

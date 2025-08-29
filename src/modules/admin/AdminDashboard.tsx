@@ -3,9 +3,9 @@ import { adminService, type AdminStats, type DashboardStats } from '../../servic
 import { Layout } from '../../components/Layout/Layout';
 import { Button } from '../../components/UI/Button';
 import { 
-  Users, DollarSign, CheckCircle, Clock, TrendingUp, 
-  MessageCircle, Star, Activity, RefreshCw, Settings,
-  BarChart3, PieChart, Calendar, AlertTriangle
+  Users, DollarSign, CheckCircle, 
+  MessageCircle,  Activity, RefreshCw, Settings,
+  BarChart3, AlertTriangle
 } from 'lucide-react';
 import toast from 'react-hot-toast';
 
@@ -338,3 +338,5 @@ export const AdminDashboard: React.FC = () => {
     </Layout>
   );
 };
+
+export default AdminDashboard;

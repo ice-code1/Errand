@@ -3,7 +3,6 @@ import { adminService } from '../../services/admin';
 import { Layout } from '../../components/Layout/Layout';
 import { Button } from '../../components/UI/Button';
 import { Input } from '../../components/UI/Input';
-import { TextArea } from '../../components/UI/TextArea';
 import { 
   Settings, Save, RefreshCw, AlertTriangle, 
   DollarSign, MapPin, Shield, Bell 
@@ -286,3 +285,5 @@ export const AdminSettings: React.FC = () => {
     </Layout>
   );
 };
+
+export default AdminSettings;

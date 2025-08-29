@@ -96,3 +96,5 @@ export const ForgotPasswordPage: React.FC = () => {
     </div>
   );
 };
+
+export default ForgotPasswordPage;

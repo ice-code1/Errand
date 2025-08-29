@@ -448,3 +448,5 @@ export const KYCVerificationPage: React.FC = () => {
     </Layout>
   );
 };
+
+export default KYCVerificationPage;

@@ -1,7 +1,6 @@
 import { supabase } from './supabase';
 import type { Database } from '../types/database';
 
-//type Profile = Database['public']['Tables']['profiles']['Row'];
 type ProfileUpdate = Database['public']['Tables']['profiles']['Update'];
 
 export const profileService = {

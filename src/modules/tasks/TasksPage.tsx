@@ -7,7 +7,7 @@ import { TaskCard } from '../../components/Tasks/TaskCard';
 import { Select } from '../../components/UI/Select';
 import { Input } from '../../components/UI/Input';
 import { Button } from '../../components/UI/Button';
-import { Search, Filter, Plus } from 'lucide-react';
+import { Search, Plus } from 'lucide-react';
 import toast from 'react-hot-toast';
 
 const CATEGORIES = [
@@ -181,3 +181,5 @@ export const TasksPage: React.FC = () => {
     </Layout>
   );
 };
+
+export default TasksPage;

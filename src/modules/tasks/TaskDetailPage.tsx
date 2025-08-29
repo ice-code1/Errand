@@ -481,3 +481,5 @@ export const TaskDetailPage: React.FC = () => {
     </Layout>
   );
 };
+
+export default TaskDetailPage;
